@@ -11,7 +11,6 @@ plugins {
 allprojects {
     group = "org.kdh"
     version = "1.0-SNAPSHOT"
-//    java.sourceCompatibility = JavaVersion.VERSION_17
 
     repositories {
         mavenCentral()
@@ -53,10 +52,3 @@ subprojects {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 }
-
-//val jar: Jar by tasks
-//val bootJar: BootJar by tasks
-//
-//bootJar.enabled = false
-//jar.enabled = true
-
