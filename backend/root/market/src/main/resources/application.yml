@@ -1,0 +1,63 @@
+spring:
+  application:
+    name: market-service
+
+  profiles:
+    active: local # 기본 프로파일 설정 (local)
+
+---
+spring:
+  profiles: local
+  server:
+    port: 8082
+  datasource:
+    url: jdbc:h2:mem:marketdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+test:
+  email: "test@example.com"
+  payment-provider: "local-mock-payment"
+
+---
+spring:
+  profiles: development
+  server:
+    port: 8082
+  datasource:
+    url: jdbc:mysql://dev-db-host:3306/marketdb
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: dev_user
+    password: dev_password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+test:
+  email: "dev-test@example.com"
+  payment-provider: "dev-mock-payment"
+
+---
+spring:
+  profiles: production
+  server:
+    port: 8082
+  datasource:
+    url: jdbc:mysql://prod-db-host:3306/marketdb
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: prod_user
+    password: prod_password
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+
+test:
+  email: "prod-support@example.com"
+  payment-provider: "real-payment-provider"
