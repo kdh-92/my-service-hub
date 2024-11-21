@@ -1,0 +1,55 @@
+services:
+  auth-service:
+    build:
+      context: ./backend/root
+      dockerfile: Dockerfile.auth
+    restart: always
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql
+    networks:
+      - msh-network
+
+  market-service:
+    build:
+      context: ./backend/root
+      dockerfile: Dockerfile.market
+    restart: always
+    ports:
+      - "8090:8090"
+    depends_on:
+      - mysql
+    networks:
+      - msh-network
+
+  mysql:
+    image: mysql:latest
+    restart: always
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: msh24
+      MYSQL_DATABASE: auth_db
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - msh-network
+
+  tesseract:
+    image: sleeck/tesseract
+    container_name: tesseract
+    volumes:
+      - ./tessdata:/usr/share/tesseract-ocr/4.00/tessdata
+    ports:
+      - "5555:5555"
+    networks:
+      - msh-network
+
+volumes:
+  mysql-data:
+
+networks:
+  msh-network:
+    driver: bridge
