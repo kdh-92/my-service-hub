@@ -1,0 +1,16 @@
+FROM eclipse-temurin:17-jdk-jammy
+
+ARG HOME_DIR=/usr/app
+ARG PROJECT_NAME=market
+ARG JAR_FILE=./$PROJECT_NAME/build/libs/$PROJECT_NAME-*.jar
+
+WORKDIR $HOME_DIR
+
+COPY ./ ./
+RUN chmod +x ./gradlew
+RUN ./gradlew clean $PROJECT_NAME:bootJar
+
+RUN cp $JAR_FILE ./app.jar
+#RUN rm -R ./$PROJECT_NAME/src
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
